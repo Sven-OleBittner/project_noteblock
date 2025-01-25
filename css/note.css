@@ -1,0 +1,39 @@
+.note {
+  height: 200px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 16px;
+  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.5);
+}
+
+.btn_note {
+  background-color: rgb(255, 247, 216);
+}
+
+.btn_archiv {
+  background-color: rgb(95, 255, 234);
+}
+
+.btn_trash {
+  background-color: rgb(248, 63, 63);
+}
+
+.note_btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.note_background {
+  background-color: rgb(255, 247, 216);
+}
+.archiv_background {
+  background-color: rgb(95, 255, 234);
+}
+.trash_background {
+  background-color: rgb(248, 63, 63);
+}

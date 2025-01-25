@@ -1,0 +1,57 @@
+@media (min-width: 2500px) {
+  .max_content {
+    max-width: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .btn {
+    height: 25px;
+    width: 25px;
+  }
+
+  .site_padding {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (max-width: 500px) {
+  .btn {
+    height: 20px;
+    width: 20px;
+  }
+
+  .site_padding {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .note_title {
+    width: 80px;
+  }
+
+  .note_content {
+    width: 80px;
+  }
+}
+
+@media (max-width: 440px) {
+  .btn {
+    height: 20px;
+    width: 20px;
+  }
+
+  .site_padding {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .note_title {
+    width: 80px;
+  }
+
+  .note_content {
+    width: 80px;
+  }
+}

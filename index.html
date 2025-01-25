@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notizblock</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./css/standard.css" />
+    <link rel="stylesheet" href="./css/note.css" />
+    <link rel="stylesheet" href="./assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="./css/media.css">
+    <link
+      rel="shortcut icon"
+      href="./assets/icons/logo.svg"
+      type="image/x-icon"
+    />
+  </head>
+  <body onload="initNotes()" id="body">
+    <section class="header">
+      <header class="header_content site_padding max_content">
+        <a href="./index.html"><h1 class="headline">Notizblock</h1></a>
+        <div class="links">
+          <button onclick="archivOverlayOn()" class="btn btn_archiv">A</button>
+          <button onclick="trashOverlayOn()" class="btn btn_trash">T</button>
+          <button class="btn" onclick="clearStorage()">
+            C
+          </button>
+        </div>
+      </header>
+    </section>
+    <section class="main">
+      <main class="main_content max_content site_padding">
+        <div class="input_content">
+          <input
+            id="noteTitleInput"
+            type="text"
+            value=""
+            placeholder="Titel"
+            title="Titel"
+            class="note_title"
+          />
+          <input
+            id="noteContentInput"
+            name="Notiz"
+            type="text"
+            id="note"
+            placeholder="Ihre Notiz....."
+            title="Ihre Notiz"
+            class="note_content"
+          />
+          <input
+            class="btn"
+            type="button"
+            value="+"
+            title="Hinzufügen"
+            onclick="addNote()"
+          />
+        </div>
+        <h2 class="note_headline">Notizen</h2>
+        <div class="notes_container" id="notesContainer"></div>
+        <div onclick="archivOverlayOff()" id="archiveOverlay" class="archive_overlay d_none">
+          <h2 class="overlay_headline_archiv">Archiv</h2>
+          <div class="notes_container" id="archiveNotesContainer">
+          </div>
+        </div>
+        <div onclick="trashOverlayOff()" id="trashOverlay" class="trash_overlay d_none">
+          <h2 class="overlay_headline_trash">Trash</h2>
+          <div class="notes_container" id="trashNotesContainer">
+          </div>
+        </div>
+      </main>
+    </section>
+    <section class="footer">
+      <footer class="footer_content site_padding max_content">
+        <div class="data-impressum">
+          <a href="./privacy.html" class="data">Datenschutz</a>
+          <p class="data-line-impressum">|</p>
+          <a href="./impressum.html" class="impressum">Impressum</a>
+        </div>
+        <span class="copy">(c) 2025 by Sven-Ole Bittner</span>
+
+      </footer>
+    </section>
+  </body>
+  <script src="./script.js"></script>
+  <script src="./javascript/templates.js"></script>
+</html>
