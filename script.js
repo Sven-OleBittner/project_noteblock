@@ -1,9 +1,34 @@
-const notesTitle = [];
-const notesArchiveTitle = [];
-const notesTrashTitle = [];
-const notesContent = [];
-const notesArchiveContent = [];
-const notesTrashContent = [];
+
+const allNotes = {
+  notesTitle: [],
+  notesArchiveTitle: [],
+  notesTrashTitle: [],
+  notes: [],
+  notesArchive: [],
+  notesTrash: [],
+};
+
+function renderAllNotes() {
+  renderNotes();
+  renderArchiveNotes();
+  renderTrashNotes();
+}
+
+function allNotesToStorage() {
+  notesToStorage();
+  archivNotesToStorage();
+  trashNoteToStorage();
+
+}
+
+function switchNote(indexNote,startKey, destinationKey) {
+  let note = allNotes[startKey].splice(indexNote, 1);
+  let noteTitle = allNotes[startKey + 'Title'].splice(indexNote, 1);
+  allNotes[destinationKey].push(note[0]);
+  allNotes[destinationKey + 'Title'].push(noteTitle[0]);
+  allNotesToStorage();
+  renderAllNotes();
+}
 
 function initNotes() {
   notesFromStorage();
@@ -14,15 +39,7 @@ function initNotes() {
 function renderNotes() {
   let noteContainerRef = document.getElementById("notesContainer");
   noteContainerRef.innerHTML = "";
-  for (let noteIndex = 0; noteIndex < notesTitle.length; noteIndex++) {
-    noteContainerRef.innerHTML += getNoteTemplate(noteIndex);
-  }
-}
-
-function renderNotes() {
-  let noteContainerRef = document.getElementById("notesContainer");
-  noteContainerRef.innerHTML = "";
-  for (let noteIndex = 0; noteIndex < notesTitle.length; noteIndex++) {
+  for (let noteIndex = 0; noteIndex < allNotes.notesTitle.length; noteIndex++) {
     noteContainerRef.innerHTML += getNoteTemplate(noteIndex);
   }
 }
@@ -32,7 +49,7 @@ function renderArchiveNotes() {
   noteArchivContainerRef.innerHTML = "";
   for (
     let noteArchiveIndex = 0;
-    noteArchiveIndex < notesArchiveTitle.length;
+    noteArchiveIndex < allNotes.notesArchiveTitle.length;
     noteArchiveIndex++
   ) {
     noteArchivContainerRef.innerHTML +=
@@ -45,7 +62,7 @@ function renderTrashNotes() {
   noteTrashContainerRef.innerHTML = "";
   for (
     let trashNoteIndex = 0;
-    trashNoteIndex < notesTrashTitle.length;
+    trashNoteIndex < allNotes.notesTrashTitle.length;
     trashNoteIndex++
   ) {
     noteTrashContainerRef.innerHTML += getTrashNoteTemplate(trashNoteIndex);
@@ -59,8 +76,8 @@ function addNote() {
   let noteTitle = noteTitleRef.value;
   let noteContent = noteContentRef.value;
   if (noteTitle != "" && noteContent != "") {
-    notesTitle.push(noteTitle);
-    notesContent.push(noteContent);
+    allNotes.notesTitle.push(noteTitle);
+    allNotes.notes.push(noteContent);
     notesToStorage();
     noteTitleRef.value = "";
     noteContentRef.value = "";
@@ -68,89 +85,30 @@ function addNote() {
   renderNotes();
 }
 
-function switchArchivToNote(noteArchiveIndex) {
-  let noteArchiveTitle = notesArchiveTitle.splice(noteArchiveIndex, 1);
-  let noteArchiveContent = notesArchiveContent.splice(noteArchiveIndex, 1);
-  notesTitle.push(noteArchiveTitle[0]);
-  notesContent.push(noteArchiveContent[0]);
-  notesToStorage();
-  archivNotesToStorage();
-  renderArchiveNotes();
-  renderTrashNotes();
-  renderNotes();
-}
-
-function switchArchivToTrashNote(noteArchiveIndex) {
-  let noteArchiveTitle = notesArchiveTitle.splice(noteArchiveIndex, 1);
-  let noteArchiveContent = notesArchiveContent.splice(noteArchiveIndex, 1);
-  notesTrashTitle.push(noteArchiveTitle[0]);
-  notesTrashContent.push(noteArchiveContent[0]);
-  trashNoteToStorage();
-  archivNotesToStorage();
-  renderArchiveNotes();
-  renderTrashNotes();
-  renderNotes();
-}
-
-function switchNoteToArchive(indexNote) {
-  let noteArchiveTitle = notesTitle.splice(indexNote, 1);
-  let noteArchiveContent = notesContent.splice(indexNote, 1);
-  notesArchiveTitle.push(noteArchiveTitle[0]);
-  notesArchiveContent.push(noteArchiveContent[0]);
-  notesToStorage();
-  archivNotesToStorage();
-  renderArchiveNotes();
-  renderTrashNotes();
-  renderNotes();
-}
-
-function switchNoteToTrash(indexNote) {
-  let noteTrashTitle = notesTitle.splice(indexNote, 1);
-  let noteTrashContent = notesContent.splice(indexNote, 1);
-  notesTrashTitle.push(noteTrashTitle[0]);
-  notesTrashContent.push(noteTrashContent[0]);
-  notesToStorage();
-  renderArchiveNotes();
-  renderTrashNotes();
-  renderNotes();
-}
-
-function switchTrashToNote(trashNoteIndex) {
-  let noteTrashTitle = notesTrashTitle.splice(trashNoteIndex, 1);
-  let noteTrashContent = notesTrashContent.splice(trashNoteIndex, 1);
-  notesTitle.push(noteTrashTitle[0]);
-  notesContent.push(noteTrashContent[0]);
-  notesToStorage();
-  trashNoteToStorage();
-  renderArchiveNotes();
-  renderTrashNotes();
-  renderNotes();
-}
-
 function deleteNote(trashNoteIndex) {
-  notesTrashTitle.splice(trashNoteIndex, 1);
-  notesTrashContent.splice(trashNoteIndex, 1);
+  allNotes.notesTrashTitle.splice(trashNoteIndex, 1);
+  allNotes.notesTrash.splice(trashNoteIndex, 1);
   trashNoteToStorage();
   renderTrashNotes();
 }
 
 function notesToStorage() {
-  let stringNoteTitle = JSON.stringify(notesTitle);
-  let stringNoteContent = JSON.stringify(notesContent);
+  let stringNoteTitle = JSON.stringify(allNotes.notesTitle);
+  let stringNoteContent = JSON.stringify(allNotes.notes);
   localStorage.setItem("title", stringNoteTitle);
   localStorage.setItem("content", stringNoteContent);
 }
 
 function archivNotesToStorage() {
-  let stringNoteTitle = JSON.stringify(notesArchiveTitle);
-  let stringNoteContent = JSON.stringify(notesArchiveContent);
+  let stringNoteTitle = JSON.stringify(allNotes.notesArchiveTitle);
+  let stringNoteContent = JSON.stringify(allNotes.notesArchive);
   localStorage.setItem("archivTitle", stringNoteTitle);
   localStorage.setItem("archivContent", stringNoteContent);
 }
 
 function trashNoteToStorage() {
-  let stringTrashNoteTitle = JSON.stringify(notesTrashTitle);
-  let stringTrashNoteContent = JSON.stringify(notesTrashContent);
+  let stringTrashNoteTitle = JSON.stringify(allNotes.notesTrashTitle);
+  let stringTrashNoteContent = JSON.stringify(allNotes.notesTrash);
   localStorage.setItem("trashTitle", stringTrashNoteTitle);
   localStorage.setItem("trashContent", stringTrashNoteContent);
 }
@@ -167,8 +125,8 @@ function notesFromStorage() {
       storageIndex < storageTitleNotes.length;
       storageIndex++
     ) {
-      notesTitle.push(storageTitleNotes[storageIndex]);
-      notesContent.push(storageContentNotes[storageIndex]);
+      allNotes.notesTitle.push(storageTitleNotes[storageIndex]);
+      allNotes.notes.push(storageContentNotes[storageIndex]);
     }
     renderNotes();
   }
@@ -186,8 +144,8 @@ function archivNotesFromStorage() {
       storageArchivIndex < storageArchivTitleNotes.length;
       storageArchivIndex++
     ) {
-      notesArchiveTitle.push(storageArchivTitleNotes[storageArchivIndex]);
-      notesArchiveContent.push(storageArchivContentNotes[storageArchivIndex]);
+      allNotes.notesArchiveTitle.push(storageArchivTitleNotes[storageArchivIndex]);
+      allNotes.notesArchive.push(storageArchivContentNotes[storageArchivIndex]);
     }
     renderArchiveNotes();
   }
@@ -205,8 +163,8 @@ function trashNotesFromStorage() {
       storageTrashIndex < storageTrashTitleNotes.length;
       storageTrashIndex++
     ) {
-      notesTrashTitle.push(storageTrashTitleNotes[storageTrashIndex]);
-      notesTrashContent.push(storageTrashContentNotes[storageTrashIndex]);
+      allNotes.notesTrashTitle.push(storageTrashTitleNotes[storageTrashIndex]);
+      allNotes.notesTrash.push(storageTrashContentNotes[storageTrashIndex]);
     }
     renderTrashNotes();
   }
