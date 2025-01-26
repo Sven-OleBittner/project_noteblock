@@ -62,10 +62,10 @@ function addNote() {
     notesTitle.push(noteTitle);
     notesContent.push(noteContent);
     notesToStorage();
+    noteTitleRef.value = "";
+    noteContentRef.value = "";
   }
   renderNotes();
-  noteTitleRef.value = "";
-  noteContentRef.value = "";
 }
 
 function switchArchivToNote(noteArchiveIndex) {
@@ -91,7 +91,6 @@ function switchArchivToTrashNote(noteArchiveIndex) {
   renderTrashNotes();
   renderNotes();
 }
-
 
 function switchNoteToArchive(indexNote) {
   let noteArchiveTitle = notesTitle.splice(indexNote, 1);
@@ -126,7 +125,6 @@ function switchTrashToNote(trashNoteIndex) {
   renderArchiveNotes();
   renderTrashNotes();
   renderNotes();
-
 }
 
 function deleteNote(trashNoteIndex) {
@@ -195,7 +193,6 @@ function archivNotesFromStorage() {
   }
 }
 
-
 function trashNotesFromStorage() {
   let stringTrashTitleNotes = localStorage.getItem("trashTitle");
   let stringTrashContentNotes = localStorage.getItem("trashContent");
@@ -223,32 +220,30 @@ function dialogPrevention(event) {
   event.stopPropagation();
 }
 
-
 function archivOverlayOn() {
-  let archivOverlay = document.getElementById('archiveOverlay');
+  let archivOverlay = document.getElementById("archiveOverlay");
   let body = document.getElementById("body");
   archivOverlay.classList.remove("d_none");
   body.classList.add("no-scroll");
 }
 
 function trashOverlayOn() {
-  let trashOverlay = document.getElementById('trashOverlay');
+  let trashOverlay = document.getElementById("trashOverlay");
   let body = document.getElementById("body");
   trashOverlay.classList.remove("d_none");
   body.classList.add("no-scroll");
 }
 
 function archivOverlayOff() {
-  let archivOverlay = document.getElementById('archiveOverlay');
+  let archivOverlay = document.getElementById("archiveOverlay");
   let body = document.getElementById("body");
   archivOverlay.classList.add("d_none");
   body.classList.remove("no-scroll");
 }
 
 function trashOverlayOff() {
-  let trashOverlay = document.getElementById('trashOverlay');
+  let trashOverlay = document.getElementById("trashOverlay");
   let body = document.getElementById("body");
   trashOverlay.classList.add("d_none");
   body.classList.remove("no-scroll");
 }
-
