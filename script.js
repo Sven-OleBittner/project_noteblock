@@ -1,4 +1,3 @@
-
 const allNotes = {
   notesTitle: [],
   notesArchiveTitle: [],
@@ -18,14 +17,13 @@ function allNotesToStorage() {
   notesToStorage();
   archivNotesToStorage();
   trashNoteToStorage();
-
 }
 
-function switchNote(indexNote,startKey, destinationKey) {
+function switchNote(indexNote, startKey, destinationKey) {
   let note = allNotes[startKey].splice(indexNote, 1);
-  let noteTitle = allNotes[startKey + 'Title'].splice(indexNote, 1);
+  let noteTitle = allNotes[startKey + "Title"].splice(indexNote, 1);
   allNotes[destinationKey].push(note[0]);
-  allNotes[destinationKey + 'Title'].push(noteTitle[0]);
+  allNotes[destinationKey + "Title"].push(noteTitle[0]);
   allNotesToStorage();
   renderAllNotes();
 }
@@ -35,6 +33,24 @@ function initNotes() {
   archivNotesFromStorage();
   trashNotesFromStorage();
 }
+
+// function renderAllNotes(id, indexNote, noteKey) {
+//   let noteContainerRef = document.getElementById(id);
+//   noteContainerRef = "";
+//   for (let indexNote = 0; indexNote < allNotes[noteKey].length; indexNote++) {
+//     noteContainerRef.innerHTML += getNoteTemplates(indexNote, noteKey);
+//   }
+// }
+
+// function getNoteTemplates(indexNote, noteKey) {
+//   if (noteKey === "notesTitle") {
+//     getNoteTemplate(indexNote);
+//   } else if (noteKey === "notesArchiveTitle") {
+//     getArchiveNoteTemplate(indexNote);
+//   } else if (noteKey === "notesTrashTitle") {
+//     trashNoteToStorage(indexNote);
+//   }
+// }
 
 function renderNotes() {
   let noteContainerRef = document.getElementById("notesContainer");
@@ -82,7 +98,7 @@ function addNote() {
     noteTitleRef.value = "";
     noteContentRef.value = "";
   }
-  renderNotes();
+  renderAllNotes();
 }
 
 function deleteNote(trashNoteIndex) {
@@ -127,8 +143,9 @@ function notesFromStorage() {
     ) {
       allNotes.notesTitle.push(storageTitleNotes[storageIndex]);
       allNotes.notes.push(storageContentNotes[storageIndex]);
+      renderAllNotes();
     }
-    renderNotes();
+    
   }
 }
 
@@ -144,10 +161,13 @@ function archivNotesFromStorage() {
       storageArchivIndex < storageArchivTitleNotes.length;
       storageArchivIndex++
     ) {
-      allNotes.notesArchiveTitle.push(storageArchivTitleNotes[storageArchivIndex]);
+      allNotes.notesArchiveTitle.push(
+        storageArchivTitleNotes[storageArchivIndex]
+      );
       allNotes.notesArchive.push(storageArchivContentNotes[storageArchivIndex]);
+      renderAllNotes();
+
     }
-    renderArchiveNotes();
   }
 }
 
@@ -165,8 +185,9 @@ function trashNotesFromStorage() {
     ) {
       allNotes.notesTrashTitle.push(storageTrashTitleNotes[storageTrashIndex]);
       allNotes.notesTrash.push(storageTrashContentNotes[storageTrashIndex]);
+      renderAllNotes();
+
     }
-    renderTrashNotes();
   }
 }
 
