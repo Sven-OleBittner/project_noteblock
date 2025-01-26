@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/standard.css" />
     <link rel="stylesheet" href="./css/note.css" />
     <link rel="stylesheet" href="./assets/fonts/fonts.css" />
-    <link rel="stylesheet" href="./css/media.css">
+    <link rel="stylesheet" href="./css/media.css" />
     <link
       rel="shortcut icon"
       href="./assets/icons/logo.svg"
@@ -22,9 +22,7 @@
         <div class="links">
           <button onclick="archivOverlayOn()" class="btn btn_archiv">A</button>
           <button onclick="trashOverlayOn()" class="btn btn_trash">T</button>
-          <button class="btn" onclick="clearStorage()">
-            C
-          </button>
+          <button class="btn" onclick="clearStorage()">C</button>
         </div>
       </header>
     </section>
@@ -58,15 +56,21 @@
         </div>
         <h2 class="note_headline">Notizen</h2>
         <div class="notes_container" id="notesContainer"></div>
-        <div onclick="archivOverlayOff()" id="archiveOverlay" class="archive_overlay d_none">
+        <div
+          onclick="archivOverlayOff()"
+          id="archiveOverlay"
+          class="archive_overlay d_none"
+        >
           <h2 class="overlay_headline_archiv">Archiv</h2>
-          <div class="notes_container" id="archiveNotesContainer">
-          </div>
+          <div class="notes_container" id="archiveNotesContainer"></div>
         </div>
-        <div onclick="trashOverlayOff()" id="trashOverlay" class="trash_overlay d_none">
+        <div
+          onclick="trashOverlayOff()"
+          id="trashOverlay"
+          class="trash_overlay d_none"
+        >
           <h2 class="overlay_headline_trash">Trash</h2>
-          <div class="notes_container" id="trashNotesContainer">
-          </div>
+          <div class="notes_container" id="trashNotesContainer"></div>
         </div>
       </main>
     </section>
@@ -78,7 +82,6 @@
           <a href="./impressum.html" class="impressum">Impressum</a>
         </div>
         <span class="copy">(c) 2025 by Sven-Ole Bittner</span>
-
       </footer>
     </section>
   </body>
