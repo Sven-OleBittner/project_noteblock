@@ -15,11 +15,11 @@
 }
 
 .btn_archiv {
-  background-color: rgb(95, 255, 234);
+  background-color: rgb(145, 248, 234);
 }
 
 .btn_trash {
-  background-color: rgb(248, 63, 63);
+  background-color: rgb(252, 114, 114);
 }
 
 .note_btns {
@@ -32,8 +32,8 @@
   background-color: rgb(255, 247, 216);
 }
 .archiv_background {
-  background-color: rgb(95, 255, 234);
+  background-color: rgb(145, 248, 234);
 }
 .trash_background {
-  background-color: rgb(248, 63, 63);
+  background-color:  rgb(252, 114, 114);
 }
