@@ -114,5 +114,4 @@ function notesFromStorage(noteKey) {
       allNotes[`${noteKey}`].push(storageContentNotes[storageIndex]);
     }
   }
-  renderNotes(noteKey);
 }
