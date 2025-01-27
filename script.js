@@ -1,88 +1,73 @@
 const allNotes = {
   notesTitle: [],
-  notesArchiveTitle: [],
-  notesTrashTitle: [],
+  archiveTitle: [],
+  trashTitle: [],
   notes: [],
-  notesArchive: [],
-  notesTrash: [],
+  archive: [],
+  trash: [],
 };
 
-function renderAllNotes() {
-  renderNotes();
-  renderArchiveNotes();
-  renderTrashNotes();
-}
-
-function allNotesToStorage() {
-  notesToStorage();
-  archivNotesToStorage();
-  trashNoteToStorage();
-}
-
-function switchNote(indexNote, startKey, destinationKey) {
-  let note = allNotes[startKey].splice(indexNote, 1);
-  let noteTitle = allNotes[startKey + "Title"].splice(indexNote, 1);
-  allNotes[destinationKey].push(note[0]);
-  allNotes[destinationKey + "Title"].push(noteTitle[0]);
-  allNotesToStorage();
-  renderAllNotes();
-}
-
 function initNotes() {
-  notesFromStorage();
-  archivNotesFromStorage();
-  trashNotesFromStorage();
+  notesFromStorage('notes');
+  notesFromStorage('archive');
+  notesFromStorage('trash');
+  renderNotes('notes');
 }
 
-// function renderAllNotes(id, indexNote, noteKey) {
-//   let noteContainerRef = document.getElementById(id);
-//   noteContainerRef = "";
-//   for (let indexNote = 0; indexNote < allNotes[noteKey].length; indexNote++) {
-//     noteContainerRef.innerHTML += getNoteTemplates(indexNote, noteKey);
-//   }
-// }
+function notes() {
+  let noteHeadlineRef = document.getElementById("noteHeadline");
+  let headLine = noteHeadlineRef;
+  noteHeadlineRef.innerHTML = 'Notizen';
 
-// function getNoteTemplates(indexNote, noteKey) {
-//   if (noteKey === "notesTitle") {
-//     getNoteTemplate(indexNote);
-//   } else if (noteKey === "notesArchiveTitle") {
-//     getArchiveNoteTemplate(indexNote);
-//   } else if (noteKey === "notesTrashTitle") {
-//     trashNoteToStorage(indexNote);
-//   }
-// }
+  if (headLine.classList.contains('archiv_background')) {
+    headLine.classList.replace('archiv_background', 'note_background');
+  }else if (headLine.classList.contains('trash_background')) {
+    headLine.classList.replace('trash_background', 'note_background');
+  }
+  renderNotes('notes');
+}
 
-function renderNotes() {
+function archiv() {
+  let noteHeadlineRef = document.getElementById("noteHeadline");
+  let headLine = noteHeadlineRef;
+  noteHeadlineRef.innerHTML = 'Archiv';
+
+  if (headLine.classList.contains('note_background')) {
+    headLine.classList.replace('note_background', 'archiv_background');
+  }else if (headLine.classList.contains('trash_background')) {
+    headLine.classList.replace('trash_background', 'archiv_background');
+  }
+  renderNotes('archive');
+}
+
+function trash() {
+  let noteHeadlineRef = document.getElementById("noteHeadline");
+  let headLine = noteHeadlineRef;
+  noteHeadlineRef.innerHTML = 'Trash';
+
+  if (headLine.classList.contains('note_background')) {
+    headLine.classList.replace('note_background', 'trash_background');
+  }else if (headLine.classList.contains('archiv_background')) {
+    headLine.classList.replace('archiv_background', 'trash_background');
+  }
+  renderNotes('trash');
+}
+
+function renderNotes(noteKey) {
   let noteContainerRef = document.getElementById("notesContainer");
   noteContainerRef.innerHTML = "";
-  for (let noteIndex = 0; noteIndex < allNotes.notesTitle.length; noteIndex++) {
-    noteContainerRef.innerHTML += getNoteTemplate(noteIndex);
+  for (let indexNote = 0; indexNote < allNotes[`${noteKey}`].length; indexNote++) {
+    noteContainerRef.innerHTML += getNoteTemplates(indexNote, noteKey);    
   }
 }
 
-function renderArchiveNotes() {
-  let noteArchivContainerRef = document.getElementById("archiveNotesContainer");
-  noteArchivContainerRef.innerHTML = "";
-  for (
-    let noteArchiveIndex = 0;
-    noteArchiveIndex < allNotes.notesArchiveTitle.length;
-    noteArchiveIndex++
-  ) {
-    noteArchivContainerRef.innerHTML +=
-      getArchiveNoteTemplate(noteArchiveIndex);
-  }
-}
-
-function renderTrashNotes() {
-  let noteTrashContainerRef = document.getElementById("trashNotesContainer");
-  noteTrashContainerRef.innerHTML = "";
-  for (
-    let trashNoteIndex = 0;
-    trashNoteIndex < allNotes.notesTrashTitle.length;
-    trashNoteIndex++
-  ) {
-    noteTrashContainerRef.innerHTML += getTrashNoteTemplate(trashNoteIndex);
-    trashNoteToStorage(trashNoteIndex);
+function getNoteTemplates(indexNote, noteKey) {
+  if (noteKey === "notes") {
+    return getNoteTemplate(indexNote,noteKey);
+  } else if (noteKey === "archive") {
+    return getArchiveNoteTemplate(indexNote, noteKey);
+  } else if (noteKey === "trash") {
+    return getTrashNoteTemplate(indexNote, noteKey);
   }
 }
 
@@ -94,44 +79,40 @@ function addNote() {
   if (noteTitle != "" && noteContent != "") {
     allNotes.notesTitle.push(noteTitle);
     allNotes.notes.push(noteContent);
-    notesToStorage();
+    notesToStorage('notes');
     noteTitleRef.value = "";
     noteContentRef.value = "";
   }
-  renderAllNotes();
+  renderNotes('notes');
 }
 
-function deleteNote(trashNoteIndex) {
-  allNotes.notesTrashTitle.splice(trashNoteIndex, 1);
-  allNotes.notesTrash.splice(trashNoteIndex, 1);
-  trashNoteToStorage();
-  renderTrashNotes();
+function switchNote(indexNote, startKey, destinationKey) {
+  let note = allNotes[`${startKey}`].splice(indexNote, 1);
+  let noteTitle = allNotes[`${startKey}Title`].splice(indexNote, 1);
+  allNotes[destinationKey].push(note[0]);
+  allNotes[destinationKey + "Title"].push(noteTitle[0]);
+  notesToStorage(startKey);
+  notesToStorage(destinationKey);
+  renderNotes(startKey);
 }
 
-function notesToStorage() {
-  let stringNoteTitle = JSON.stringify(allNotes.notesTitle);
-  let stringNoteContent = JSON.stringify(allNotes.notes);
-  localStorage.setItem("title", stringNoteTitle);
-  localStorage.setItem("content", stringNoteContent);
+function deleteNote(indexNote) {
+  allNotes.trashTitle.splice(indexNote, 1);
+  allNotes.trash.splice(indexNote, 1);
+  notesToStorage('trash');
+  renderNotes('trash');
 }
 
-function archivNotesToStorage() {
-  let stringNoteTitle = JSON.stringify(allNotes.notesArchiveTitle);
-  let stringNoteContent = JSON.stringify(allNotes.notesArchive);
-  localStorage.setItem("archivTitle", stringNoteTitle);
-  localStorage.setItem("archivContent", stringNoteContent);
+function notesToStorage(noteKey) {
+  let stringNoteTitle = JSON.stringify(allNotes[`${noteKey}Title`]);
+  let stringNoteContent = JSON.stringify(allNotes[`${noteKey}`]);
+  localStorage.setItem(`${noteKey}Title`, stringNoteTitle);
+  localStorage.setItem(`${noteKey}`, stringNoteContent);
 }
 
-function trashNoteToStorage() {
-  let stringTrashNoteTitle = JSON.stringify(allNotes.notesTrashTitle);
-  let stringTrashNoteContent = JSON.stringify(allNotes.notesTrash);
-  localStorage.setItem("trashTitle", stringTrashNoteTitle);
-  localStorage.setItem("trashContent", stringTrashNoteContent);
-}
-
-function notesFromStorage() {
-  let stringTitleNotes = localStorage.getItem("title");
-  let stringContentNotes = localStorage.getItem("content");
+function notesFromStorage(noteKey) {
+  let stringTitleNotes = localStorage.getItem(`${noteKey}Title`);
+  let stringContentNotes = localStorage.getItem(`${noteKey}`);
   let storageTitleNotes = JSON.parse(stringTitleNotes);
   let storageContentNotes = JSON.parse(stringContentNotes);
 
@@ -141,88 +122,9 @@ function notesFromStorage() {
       storageIndex < storageTitleNotes.length;
       storageIndex++
     ) {
-      allNotes.notesTitle.push(storageTitleNotes[storageIndex]);
-      allNotes.notes.push(storageContentNotes[storageIndex]);
-      renderAllNotes();
-    }
-    
-  }
-}
-
-function archivNotesFromStorage() {
-  let stringArchivTitleNotes = localStorage.getItem("archivTitle");
-  let stringArchivContentNotes = localStorage.getItem("archivContent");
-  let storageArchivTitleNotes = JSON.parse(stringArchivTitleNotes);
-  let storageArchivContentNotes = JSON.parse(stringArchivContentNotes);
-
-  if (storageArchivTitleNotes != null && storageArchivContentNotes != null) {
-    for (
-      let storageArchivIndex = 0;
-      storageArchivIndex < storageArchivTitleNotes.length;
-      storageArchivIndex++
-    ) {
-      allNotes.notesArchiveTitle.push(
-        storageArchivTitleNotes[storageArchivIndex]
-      );
-      allNotes.notesArchive.push(storageArchivContentNotes[storageArchivIndex]);
-      renderAllNotes();
-
+      allNotes[`${noteKey}Title`].push(storageTitleNotes[storageIndex]);
+      allNotes[`${noteKey}`].push(storageContentNotes[storageIndex]);
     }
   }
-}
-
-function trashNotesFromStorage() {
-  let stringTrashTitleNotes = localStorage.getItem("trashTitle");
-  let stringTrashContentNotes = localStorage.getItem("trashContent");
-  let storageTrashTitleNotes = JSON.parse(stringTrashTitleNotes);
-  let storageTrashContentNotes = JSON.parse(stringTrashContentNotes);
-
-  if (storageTrashTitleNotes != null && storageTrashContentNotes != null) {
-    for (
-      let storageTrashIndex = 0;
-      storageTrashIndex < storageTrashTitleNotes.length;
-      storageTrashIndex++
-    ) {
-      allNotes.notesTrashTitle.push(storageTrashTitleNotes[storageTrashIndex]);
-      allNotes.notesTrash.push(storageTrashContentNotes[storageTrashIndex]);
-      renderAllNotes();
-
-    }
-  }
-}
-
-function clearStorage() {
-  localStorage.clear();
-}
-
-function dialogPrevention(event) {
-  event.stopPropagation();
-}
-
-function archivOverlayOn() {
-  let archivOverlay = document.getElementById("archiveOverlay");
-  let body = document.getElementById("body");
-  archivOverlay.classList.remove("d_none");
-  body.classList.add("no-scroll");
-}
-
-function trashOverlayOn() {
-  let trashOverlay = document.getElementById("trashOverlay");
-  let body = document.getElementById("body");
-  trashOverlay.classList.remove("d_none");
-  body.classList.add("no-scroll");
-}
-
-function archivOverlayOff() {
-  let archivOverlay = document.getElementById("archiveOverlay");
-  let body = document.getElementById("body");
-  archivOverlay.classList.add("d_none");
-  body.classList.remove("no-scroll");
-}
-
-function trashOverlayOff() {
-  let trashOverlay = document.getElementById("trashOverlay");
-  let body = document.getElementById("body");
-  trashOverlay.classList.add("d_none");
-  body.classList.remove("no-scroll");
+  renderNotes(noteKey);
 }

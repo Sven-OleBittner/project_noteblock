@@ -20,9 +20,9 @@
       <header class="header_content site_padding max_content">
         <a href="./index.html"><h1 class="headline">Notizblock</h1></a>
         <div class="links">
-          <button onclick="archivOverlayOn()" class="btn btn_archiv">A</button>
-          <button onclick="trashOverlayOn()" class="btn btn_trash">T</button>
-          <button class="btn" onclick="clearStorage()">C</button>
+          <button onclick="notes()" class="btn btn_note">N</button>
+          <button onclick="archiv()" class="btn btn_archiv">A</button>
+          <button onclick="trash()" class="btn btn_trash">T</button>
         </div>
       </header>
     </section>
@@ -54,23 +54,8 @@
             onclick="addNote()"
           />
         </div>
-        <h2 class="note_headline">Notizen</h2>
+        <h2 id="noteHeadline" class="note_headline note_background">Notizen</h2>
         <div class="notes_container" id="notesContainer"></div>
-        <div
-          onclick="archivOverlayOff()"
-          id="archiveOverlay"
-          class="archive_overlay d_none"
-        >
-          <h2 class="overlay_headline_archiv">Archiv</h2>
-          <div class="notes_container" id="archiveNotesContainer"></div>
-        </div>
-        <div
-          onclick="trashOverlayOff()"
-          id="trashOverlay"
-          class="trash_overlay d_none"
-        >
-          <h2 class="overlay_headline_trash">Trash</h2>
-          <div class="notes_container" id="trashNotesContainer"></div>
         </div>
       </main>
     </section>
@@ -85,6 +70,6 @@
       </footer>
     </section>
   </body>
-  <script src="./script.js"></script>
   <script src="./javascript/templates.js"></script>
+  <script src="./script.js"></script>
 </html>
