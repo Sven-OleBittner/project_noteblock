@@ -74,14 +74,14 @@ function addNote() {
   renderNotes('notes');
 }
 
-function switchNote(indexNote, startKey, destinationKey) {
-  let note = allNotes[`${startKey}`].splice(indexNote, 1);
-  let noteTitle = allNotes[`${startKey}Title`].splice(indexNote, 1);
-  allNotes[destinationKey].push(note[0]);
-  allNotes[destinationKey + "Title"].push(noteTitle[0]);
-  notesToStorage(startKey);
-  notesToStorage(destinationKey);
-  renderNotes(startKey);
+function switchNote(indexNote, oldNoteKey, newNoteKey) {
+  let switchNote = allNotes[`${oldNoteKey}`].splice(indexNote, 1);
+  let switchNoteTitle = allNotes[`${oldNoteKey}Title`].splice(indexNote, 1);
+  allNotes[newNoteKey].push(switchNote[0]);
+  allNotes[newNoteKey + "Title"].push(switchNoteTitle[0]);
+  notesToStorage(oldNoteKey);
+  notesToStorage(newNoteKey);
+  renderNotes(oldNoteKey);
 }
 
 function deleteNote(indexNote) {
