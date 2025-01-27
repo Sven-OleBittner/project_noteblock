@@ -14,42 +14,30 @@ function initNotes() {
   renderNotes('notes');
 }
 
-function notes() {
+function changeNoteHeadline(title, oldBg1, oldBg2, newBg){
   let noteHeadlineRef = document.getElementById("noteHeadline");
   let headLine = noteHeadlineRef;
-  noteHeadlineRef.innerHTML = 'Notizen';
+  noteHeadlineRef.innerHTML = title;
 
-  if (headLine.classList.contains('archiv_background')) {
-    headLine.classList.replace('archiv_background', 'note_background');
-  }else if (headLine.classList.contains('trash_background')) {
-    headLine.classList.replace('trash_background', 'note_background');
+  if (headLine.classList.contains(oldBg1)) {
+    headLine.classList.replace(oldBg1, newBg);
+  }else if (headLine.classList.contains(oldBg2)) {
+    headLine.classList.replace(oldBg2, newBg);
   }
+}
+
+function notes() {
+  changeNoteHeadline('Notizen', 'archiv_background', 'trash_background', 'note_background');
   renderNotes('notes');
 }
 
 function archiv() {
-  let noteHeadlineRef = document.getElementById("noteHeadline");
-  let headLine = noteHeadlineRef;
-  noteHeadlineRef.innerHTML = 'Archiv';
-
-  if (headLine.classList.contains('note_background')) {
-    headLine.classList.replace('note_background', 'archiv_background');
-  }else if (headLine.classList.contains('trash_background')) {
-    headLine.classList.replace('trash_background', 'archiv_background');
-  }
+  changeNoteHeadline('Archiv', 'note_background', 'trash_background', 'archiv_background')
   renderNotes('archive');
 }
 
 function trash() {
-  let noteHeadlineRef = document.getElementById("noteHeadline");
-  let headLine = noteHeadlineRef;
-  noteHeadlineRef.innerHTML = 'Trash';
-
-  if (headLine.classList.contains('note_background')) {
-    headLine.classList.replace('note_background', 'trash_background');
-  }else if (headLine.classList.contains('archiv_background')) {
-    headLine.classList.replace('archiv_background', 'trash_background');
-  }
+  changeNoteHeadline('Trash', 'note_background', 'archiv_background', 'trash_background');
   renderNotes('trash');
 }
 
